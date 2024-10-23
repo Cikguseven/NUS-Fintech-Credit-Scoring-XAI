@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+import pandas as pd
 
 class PredictionRequest(BaseModel):
     # Categorical fields
@@ -24,6 +25,32 @@ class PredictionRequest(BaseModel):
     age: int = Field(..., example=35)  # Age in years
     number_of_existing_credits: int = Field(..., example=2)  # Number of existing credits
     pax_to_provide_for: int = Field(..., example=1)  # Number of people to provide for
+
+    def convert_to_pandas_df(self):
+        data = {
+            'existing_checking_account_balance': self.existing_checking_account_balance,
+            'duration_of_credit': self.duration_of_credit,
+            'credit_history': self.credit_history,
+            'credit_purpose': self.credit_purpose,
+            'credit_amount': self.credit_amount,
+            'savings_account_balance': self.savings_account_balance,
+            'employment_status': self.employment_status,
+            'installment_rate': self.installment_rate,
+            'status_and_sex': self.status_and_sex,
+            'other_debtors_guarantors': self.other_debtors_guarantors,
+            'present_residence_since': self.present_residence_since,
+            'property_owned': self.property_owned,
+            'age': self.age,
+            'other_installment_plans': self.other_installment_plans,
+            'housing': self.housing,
+            'number_of_existing_credits': self.number_of_existing_credits,
+            'job': self.job,
+            'pax_to_provide_for': self.pax_to_provide_for,
+            'has_telephone': self.has_telephone,
+            'is_foreign_worker': self.is_foreign_worker
+        }
+        return pd.DataFrame([data])
+
 
     class Config:
         schema_extra = {
