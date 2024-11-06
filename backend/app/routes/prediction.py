@@ -17,10 +17,8 @@ async def predict(
     }
 
 @router.post("/explain/{model}")
-async def predict(
+async def explain(
     model: Annotated[str, Path(title="The model to use for the prediction")],
     data: PredictionRequest
 ):
-    print(explain_for_model(model, data))
-    return {
-    }
+    return explain_for_model(model, data)

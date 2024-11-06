@@ -7,7 +7,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { CategoricalFormFieldDetails, FormFieldDetails } from "@/lib/model_inputs"
+import { CategoricalFormFieldDetails } from "@/lib/model_inputs"
   
 /**
  * @param formlabel - how we want the form to be labelled
@@ -17,7 +17,7 @@ import { CategoricalFormFieldDetails, FormFieldDetails } from "@/lib/model_input
 export default ({ fieldDetails }: { fieldDetails: CategoricalFormFieldDetails }) => ({ field }: { field: ControllerRenderProps<any>}) => (
     <FormItem>
         <FormLabel className="font-semibold">{fieldDetails.header}</FormLabel>
-        <Select onValueChange={field.onChange} defaultValue={field.value}>
+        <Select onValueChange={field.onChange} value={field.value}>
             <FormControl>
                 <SelectTrigger>
                     <SelectValue placeholder={fieldDetails.placeholder} />
@@ -25,12 +25,13 @@ export default ({ fieldDetails }: { fieldDetails: CategoricalFormFieldDetails })
             </FormControl>
             <SelectContent>
                 {Array.from(fieldDetails.categories).map((category, index) => (
-                    <SelectItem key={index} value={category}>
+                    <SelectItem key={index} value={fieldDetails.enum[category]}>
                         {category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()}
                     </SelectItem>
                  ))}
             </SelectContent>
         </Select>
         <FormDescription>The {fieldDetails.header.toLowerCase()} factor for the prediction</FormDescription>
+        <FormMessage />
     </FormItem>
 )

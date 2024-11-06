@@ -3,7 +3,7 @@ from app.services.knn_predict import knn_predict
 from app.services.knn_predict import knn_pipeline
 from app.services.rf_predict import rf_predict
 from app.services.rf_predict import rf_pipeline
-from app.services.lime_pipeline import explain_prediction
+from app.services.knn_lime_pipeline import explain_prediction
 
 def select_model_predict(model_name: str):
     if model_name == "knn":
@@ -31,5 +31,4 @@ def predict_for_model(model_name: str, data: PredictionRequest):
 
 def explain_for_model(model_name: str, data: PredictionRequest):
     model_selected = select_model_pipeline(model_name)
-    print(explain_prediction(data.convert_to_pandas_df(), model_selected))
-    return None
+    return explain_prediction(data.convert_to_pandas_df(), model_selected)
