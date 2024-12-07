@@ -1,23 +1,17 @@
 from app.models import PredictionRequest
 from app.services.knn_predict import knn_predict
 from app.services.knn_predict import knn_pipeline
-from app.services.rf_predict import rf_predict
-from app.services.rf_predict import rf_pipeline
 from app.services.knn_lime_pipeline import explain_prediction
 
 def select_model_predict(model_name: str):
     if model_name == "knn":
         return knn_predict
-    elif model_name == "rf":
-        return rf_predict
     else:
         return None
 
 def select_model_pipeline(model_name: str):
     if model_name == "knn":
         return knn_pipeline
-    elif model_name == "rf":
-        return rf_pipeline
     else:
         return None
 

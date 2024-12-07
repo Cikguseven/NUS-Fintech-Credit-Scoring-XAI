@@ -13,18 +13,18 @@ Apart from simply making the decision on whether it is a good or bad idea to giv
 
 ### How to Setup?
 
-1. Get the source code onto your local machine. You can either do so with `git clone https://github.com/Cikguseven/NUS-Fintech-Credit-Scoring-XAI.git` or fork the repository and clone it onto your machine.  
+1. Get the source code onto your local machine. You can either do so with `git clone https://github.com/Cikguseven/NUS-Fintech-Credit-Scoring-XAI.git` or fork the repository and clone it onto your machine.
 
-2. In the **backend** directory, perform the following actions:  
-  2.1. Ensure that docker is running on your machine, and that you are in the backend directory.  
-  2.2. Run `docker build -t credit_scoring_backend:1.0 .` in your CLI. This builds a docker image named credit_scoring_backend, tagged as version 1.0.  
+2. In the **backend** directory, perform the following actions:
+  2.1. Ensure that docker is running on your machine, and that you are in the backend directory.
+  2.2. Run `docker build -t credit_scoring_backend:1.0 .` in your CLI. This builds a docker image named credit_scoring_backend, tagged as version 1.0.
   2.3. Run `docker run -p 8000:8000 credit_scoring_backend:1.0` in your CLI. This creates a docker container based on the image and starts the container. Note that `-p 8000:8000` is important as it maps the container's port 8000 to the machine's port 8000, allowing external access to the container.
 
 
-3. In the **frontend** directory, perform the following actions:  
-  3.1. Add a `.env` file, with the variable `BACKEND_URL="http://127.0.0.1:8000/`.  
-  3.2. Run the command `npm install`. This will install the dependencies needed to run the frontend.  
-  3.3. Run the command `npm run dev`. This will start the development version of the frontend on your local machine.  
+3. In the **frontend** directory, perform the following actions:
+  3.1. Add a `.env` file, with the variable `BACKEND_URL="http://127.0.0.1:8000/"`.
+  3.2. Run the command `npm install`. This will install the dependencies needed to run the frontend.
+  3.3. Run the command `npm run dev`. This will start the development version of the frontend on your local machine.
   **Note:** to use the frontend in a production environment, use `next build` and `next start` to build the application for production usage and start a production server, instead of the dev command.
 
-4. Visit `localhost:3000` and you should find your app running.
+4. Visit `localhost:3000/predict` and you should find your app running.

@@ -8,10 +8,10 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { CategoricalFormFieldDetails } from "@/lib/model_inputs"
-  
+
 /**
  * @param formlabel - how we want the form to be labelled
- * 
+ *
  * @return a category selection component with the appropriate labels and categories
  */
 export default ({ fieldDetails }: { fieldDetails: CategoricalFormFieldDetails }) => ({ field }: { field: ControllerRenderProps<any>}) => (

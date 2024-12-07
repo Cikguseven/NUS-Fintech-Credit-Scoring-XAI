@@ -1,9 +1,9 @@
 "use client"
- 
+
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
- 
+
 import { Button } from "@/components/ui/button"
 import {
     Form,
@@ -14,7 +14,7 @@ import CategoricalInput from "./form-inputs/CategoricalInput"
 import QuantitativeInput from "./form-inputs/QuantitativeInput"
 import { Explanation, ExplanationInputFields, fetchExplanationKnn } from "@/lib/explanation_actions"
 import { useState } from "react"
- 
+
 const formSchema = z.object({
     // Dynamically add categorical fields to the schema
     ...categoricalFormFields.reduce((acc, field) => {
@@ -45,16 +45,16 @@ export default function PredictionForm() {
         <div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-[600px] flex flex-col justify-center">
-                    {categoricalFormFields.map(categoricalField => 
-                        <FormField 
+                    {categoricalFormFields.map(categoricalField =>
+                        <FormField
                         key={categoricalField.fieldName}
                         control={form.control}
                         name={categoricalField.fieldName}
                         render={CategoricalInput({fieldDetails: categoricalField})}
                         />)}
 
-                    {quantitativeFormFields.map(quantitativeField => 
-                        <FormField 
+                    {quantitativeFormFields.map(quantitativeField =>
+                        <FormField
                         key={quantitativeField.fieldName}
                         control={form.control}
                         name={quantitativeField.fieldName}
@@ -68,7 +68,8 @@ export default function PredictionForm() {
                 <iframe
                     title="Explanation HTML"
                     srcDoc={resultData.explanation_html}
-                    style={{ width: '100%', height: '500px', border: 'none', overflow: 'auto' }}
+                    style={{ width: '100%', height: '840px', border: 'none', overflow: 'auto' }}
+                    sandbox="allow-scripts" // Adjust permissions as needed
                 />
             )}
         </div>
