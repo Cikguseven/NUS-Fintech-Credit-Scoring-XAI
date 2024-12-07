@@ -2,6 +2,7 @@ from pathlib import Path
 import dill
 import pandas as pd
 import joblib
+import re
 import app.services.output_formatter
 
 # Construct the relative path to the LIME explainer file (relative to this script)
@@ -29,9 +30,6 @@ def prepare_data_from_df(data: pd.DataFrame):
     instance = data_transformed.iloc[0]
     return instance
 
-# For debugging
-
-
 # Function to use the LIME explainer for explanation
 def explain_prediction(data: pd.DataFrame, pipeline):
     colnames = data.columns.to_numpy()
@@ -45,12 +43,12 @@ def explain_prediction(data: pd.DataFrame, pipeline):
     lime_explanation = lime_explainer.explain_instance(
         instance.to_numpy(),
         predict_fn=predict_fn,
-        num_features=10
+        num_features=5
     )
 
     # Get probability scores
     probs = lime_explanation.predict_proba.tolist()
-    credit_worthy_prob = round(probs[1] * 100, 2)
+    credit_worthy_prob = round(probs[1] * 100, 1)
 
     html_content = f"""
     <!DOCTYPE html>
@@ -90,7 +88,7 @@ def explain_prediction(data: pd.DataFrame, pipeline):
             .probability-display {{
                 font-size: 2.25rem;
                 font-weight: 600;
-                color: {{'#10b981' if credit_worthy_prob >= 50 else '#ef4444'}};
+                color: {'#10b981' if credit_worthy_prob >= 50 else '#ef4444'};
             }}
             .probability-bar {{
                 width: 100%;
@@ -103,7 +101,7 @@ def explain_prediction(data: pd.DataFrame, pipeline):
             .probability-fill {{
                 width: {credit_worthy_prob}%;
                 height: 100%;
-                background-color: {{'#10b981' if credit_worthy_prob >= 50 else '#ef4444'}};
+                background-color: {'#10b981' if credit_worthy_prob >= 50 else '#ef4444'};
                 transition: width 1s ease-in-out;
             }}
             .feature-grid {{
@@ -112,7 +110,7 @@ def explain_prediction(data: pd.DataFrame, pipeline):
             }}
             .feature-item {{
                 display: grid;
-                grid-template-columns: 2fr 6fr 1fr;
+                grid-template-columns: 2fr 1fr;
                 align-items: center;
                 padding: 0.75rem;
                 border-radius: 0.5rem;
@@ -153,16 +151,14 @@ def explain_prediction(data: pd.DataFrame, pipeline):
     # Add feature importance details
     feature_weights = lime_explanation.as_list()
     for feature, weight in feature_weights:
-        normalized_weight = min(abs(weight) * 10, 100)
+        clean_feature = re.sub(r'[=<>].*', '', feature)
+        normalized_weight = min(abs(weight) * 100, 100)
         color = '#10b981' if weight > 0 else '#ef4444'
 
         html_content += f"""
                     <div class="feature-item">
-                        <div class="feature-name">{feature}</div>
-                        <div class="feature-bar">
-                            <div style="width: {normalized_weight}%; height: 100%; background-color: {color};"></div>
-                        </div>
-                        <div class="feature-value" style="color: {color}">{weight:+.3f}</div>
+                        <div class="feature-name">{clean_feature}</div>
+                        <div class="feature-value" style="color: {color}">{normalized_weight:+.3f}</div>
                     </div>
         """
 

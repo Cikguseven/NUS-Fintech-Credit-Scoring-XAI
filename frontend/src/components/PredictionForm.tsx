@@ -68,7 +68,7 @@ export default function PredictionForm() {
                 <iframe
                     title="Explanation HTML"
                     srcDoc={resultData.explanation_html}
-                    style={{ width: '100%', height: '500px', border: 'none', overflow: 'auto' }}
+                    style={{ width: '100%', height: '840px', border: 'none', overflow: 'auto' }}
                     sandbox="allow-scripts" // Adjust permissions as needed
                 />
             )}
